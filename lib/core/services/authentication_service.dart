@@ -8,12 +8,15 @@ class AuthenticationService {
   // Inject our Api
   final Api _api = locator<Api>();
 
-  Future<bool> login(int userId) async {
-    // Get the user profile for id
-    User? fetcheduser = await _api.getUserProfile(userId);
+  StreamController<User> userController = StreamController<User>();
 
-    // Check if success
-    bool hasUser = fetcheduser != null;
+Future<bool> login(int userId) async {
+    // Not real login, we'll just request the user profile
+    var fetcheduser = await _api.getUserProfile(userId);
+    var hasUser = fetcheduser != null;
+    if (hasUser) {
+      userController.add(fetcheduser!);
+    }
 
     return hasUser;
   }
