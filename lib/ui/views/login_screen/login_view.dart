@@ -40,6 +40,11 @@ class _LoginViewState extends State<LoginView> {
                             if (loginSuccess) {
                               Navigator.pushNamed(context, '/');
                             }
+                          } else {
+                            Future.delayed(Duration(seconds: 3), () => {
+                              model.errorMessage = null,
+                              model.setState(ViewState.idle),
+                            });
                           }
                         },
                         child: const Text('Login'),

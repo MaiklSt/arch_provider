@@ -21,6 +21,12 @@ class LoginModel extends BaseModel {
       return false;
     }
 
+    if(userId < 1 || userId > 10) {
+      errorMessage = 'use a range from 1 to 10';
+      setState(ViewState.idle);
+      return false;
+    } 
+
     var success = await _authenticationService.login(userId);
 
     setState(ViewState.idle);

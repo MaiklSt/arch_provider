@@ -18,16 +18,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  StreamProvider<User>(
-      initialData: User.initial(),
-      create: (BuildContext context) => locator<AuthenticationService>().userController.stream,
-      child: MaterialApp(
-            title: 'Flutter Demo',
-            theme: ThemeData(),
-            initialRoute: 'login',
-            onGenerateRoute: app.Router.generateRoute,
-            //home: const LoginView(),
-          ),
-    );
+    return  MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(),
+          initialRoute: 'login',
+          onGenerateRoute: app.Router.generateRoute,
+          //home: const LoginView(),
+        );
   }
 }

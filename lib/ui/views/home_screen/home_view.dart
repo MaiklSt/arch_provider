@@ -10,18 +10,22 @@ import 'package:arch_provider/ui/widgets/postlist_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   HomeView({Key? key});
 
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeModel>(
       onModelReady: (model) {
-        //print();
-        model.getPosts(Provider.of<User>(context).id!);
+        model.getPosts(model.user!.id!);
       },
       builder: (context, model, child) {
-        print(model.posts);
+        //print(model.posts);
         return Scaffold(
           backgroundColor: backgroundColor,
           appBar: AppBar(),
@@ -35,7 +39,7 @@ class HomeView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: Text(
-                          'Welcome ${Provider.of<User>(context).name}',
+                          'Welcome ${model.user?.name}',
                           style: headerStyle,
                         ),
                       ),
@@ -45,7 +49,7 @@ class HomeView extends StatelessWidget {
                             style: subHeaderStyle),
                       ),
                       UIHelper.verticalSpaceSmall(),
-                      Expanded(child: getPostsUi(model.posts)),
+                      Expanded(child: getPostsUi(model.post)),
                     ],
                   ),
                 ),
@@ -58,9 +62,6 @@ class HomeView extends StatelessWidget {
         itemCount: posts.length,
         itemBuilder: (context, index) => PostListItem(
           post: posts[index],
-          onTap: () {
-            Navigator.pushNamed(context, 'post', arguments: posts[index]);
-          },
         ),
       );
 }
