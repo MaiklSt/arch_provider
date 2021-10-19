@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:arch_provider/core/models/user.dart';
 import 'package:arch_provider/core/services/api.dart';
 import 'package:arch_provider/core/services/user_service.dart';
 import 'package:arch_provider/locator.dart';
@@ -10,8 +11,9 @@ class AuthenticationService {
 
 
 Future<bool> login(int userId) async {
-    var fetcheduser = await _api.getUserProfile(userId);
-    var hasUser = fetcheduser != null;
+  User? fetcheduser;
+    fetcheduser = await _api.getUserProfile(userId);
+    bool hasUser = fetcheduser != null;
     if (hasUser) {
       _userService.setUser(fetcheduser);
     }

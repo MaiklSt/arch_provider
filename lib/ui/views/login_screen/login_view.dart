@@ -1,11 +1,8 @@
-import 'package:arch_provider/core/enums/viewstate.dart';
-import 'package:arch_provider/core/viewmodels/login_model.dart';
+import 'package:arch_provider/core/cubit/login_cubit/login_cubit.dart';
 import 'package:arch_provider/ui/shared/app_colors.dart';
-import 'package:arch_provider/ui/views/base_view.dart';
 import 'package:arch_provider/ui/widgets/login_header.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:arch_provider/locator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -19,41 +16,44 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<LoginModel>(
-      builder: (context, model, child) => Consumer<LoginModel>(
-        builder: (context, model, child) => Scaffold(
-          backgroundColor: backgroundColor,
-          body: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                LoginHeader(
-                    validationMessage: model.errorMessage,
-                    controller: controller),
-                model.state == ViewState.busy
-                    ? const CircularProgressIndicator()
-                    : ElevatedButton(
-                        onPressed: () async {
-                          var loginSuccess = await model.login(controller.text);
-                          if (loginSuccess) {
-                            if (loginSuccess) {
-                              Navigator.pushNamed(context, '/');
-                            }
-                          } else {
-                            Future.delayed(Duration(seconds: 3), () => {
-                              model.errorMessage = null,
-                              model.setState(ViewState.idle),
-                            });
-                          }
-                        },
-                        child: const Text('Login'),
-                      ),
-              ],
+    return BlocBuilder<LoginCubit, LoginState>(
+      builder: (context, state) {
+        if (state is ErrorState) {
+          return Center(
+            child: Container(color: Colors.red),
+          );
+        } else if (state is LoginInitial) {
+          return Scaffold(
+            backgroundColor: backgroundColor,
+            body: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  LoginHeader(
+                    validationMessage:
+                        BlocProvider.of<LoginCubit>(context).errorMessage,
+                    controller: controller,
+                  ),
+                  state.isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ElevatedButton(
+                          onPressed: () async {
+                            var suc = await BlocProvider.of<LoginCubit>(context)
+                                .login(controller.text);
+                            if (suc == true) Navigator.pushNamed(context, '/');
+                          },
+                          child: const Text('Login'),
+                        ),
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
+          );
+        }
+        return Container();
+      },
     );
   }
 }

@@ -1,17 +1,14 @@
-import 'package:arch_provider/core/enums/viewstate.dart';
+import 'package:arch_provider/core/cubit/home_cubit/home_cubit.dart';
 import 'package:arch_provider/core/models/post.dart';
-import 'package:arch_provider/core/models/user.dart';
-import 'package:arch_provider/core/viewmodels/home_model.dart';
 import 'package:arch_provider/ui/shared/app_colors.dart';
 import 'package:arch_provider/ui/shared/text_styles.dart';
 import 'package:arch_provider/ui/shared/ui_helpers.dart';
-import 'package:arch_provider/ui/views/base_view.dart';
 import 'package:arch_provider/ui/widgets/postlist_item.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({Key? key});
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -19,41 +16,44 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<HomeCubit>(context).initial();
+  }
+  @override
   Widget build(BuildContext context) {
-    return BaseView<HomeModel>(
-      onModelReady: (model) {
-        model.getPosts(model.user!.id!);
-      },
-      builder: (context, model, child) {
-        //print(model.posts);
-        return Scaffold(
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        if (state is HomeInitial) {     
+          return Scaffold(
           backgroundColor: backgroundColor,
           appBar: AppBar(),
-          body: model.state == ViewState.busy
-              ? const Center(child: CircularProgressIndicator())
-              : Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      UIHelper.verticalSpaceLarge(),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: Text(
-                          'Welcome ${model.user?.name}',
-                          style: headerStyle,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 20.0),
-                        child: Text('Here are all your posts',
-                            style: subHeaderStyle),
-                      ),
-                      UIHelper.verticalSpaceSmall(),
-                      Expanded(child: getPostsUi(model.post)),
-                    ],
+          body: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                UIHelper.verticalSpaceLarge(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Text(
+                    'Welcome ${state.userName}',
+                    style: headerStyle,
                   ),
                 ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: Text('Here are all your posts', style: subHeaderStyle),
+                ),
+                UIHelper.verticalSpaceSmall(),
+                state.posts == [] ? const Center(child: CircularProgressIndicator()) : Expanded(child: getPostsUi(state.posts)),
+              ],
+            ),
+          ),
         );
+        }
+        else {
+          return Container();
+        }
       },
     );
   }
@@ -63,5 +63,5 @@ class _HomeViewState extends State<HomeView> {
         itemBuilder: (context, index) => PostListItem(
           post: posts[index],
         ),
-      );
+  );
 }

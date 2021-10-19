@@ -6,10 +6,11 @@ class UserService {
 
   User? get user => _user;
 
-void setUser(User? user) async {  
-    var hasUser = user != null;
+void setUser(User? user) async {
+  print('USS');
+    bool hasUser = user != null;
     if (hasUser) {
-      _user = user!;
+      _user = user;
     }
   }
 }

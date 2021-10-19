@@ -15,7 +15,7 @@ class LoginHeader extends StatelessWidget {
       UIHelper.verticalSpaceMedium(),
       const Text('Enter a number between 1 - 10', style: subHeaderStyle),
       LoginTextField(controller),
-      validationMessage != null
+      validationMessage != ''
           ? Text(validationMessage!, style: const TextStyle(color: Colors.red))
           : Container()
     ]);
