@@ -32,7 +32,7 @@ class PostView extends StatelessWidget {
             ),
             UIHelper.verticalSpaceMedium(),
             Text(post.body!),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Comments(postId: post.id!)

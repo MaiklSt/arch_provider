@@ -1,39 +1,47 @@
-import 'package:arch_provider/core/enums/viewstate.dart';
+
+import 'package:arch_provider/core/cubit/comment_cubit/comment_cubit.dart';
 import 'package:arch_provider/core/models/comment.dart';
-import 'package:arch_provider/core/viewmodels/comments_model.dart';
 import 'package:arch_provider/ui/shared/app_colors.dart';
 import 'package:arch_provider/ui/shared/ui_helpers.dart';
-import 'package:arch_provider/ui/views/base_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Comments extends StatelessWidget {
+class Comments extends StatefulWidget {
   final int? postId;
-  Comments({this.postId});
+  const Comments({Key? key, this.postId}) : super(key: key);
 
   @override
+  State<Comments> createState() => _CommentsState();
+}
+
+class _CommentsState extends State<Comments> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<CommentCubit>(context).fetchComments(widget.postId!);
+  }
+  @override
   Widget build(BuildContext context) {
-    return BaseView<CommentsModel>(
-      onModelReady: (model) => model.fetchComments(postId!),
-      builder: (context, model, child) => model.state == ViewState.busy
-          ? const Center(child: CircularProgressIndicator())
-          : Expanded(
+    return BlocBuilder<CommentCubit, CommentState>(
+      builder: (context, state) {
+        if (state is CommentCubitState) {
+          return state.isLoaded ? Expanded(
             child: ListView.builder(
-              itemCount: model.comments.length,
-              itemBuilder: (BuildContext context, int index) => CommentItem(model.comments[index]),
+              itemCount: state.comments.length,
+              itemBuilder: (BuildContext context, int index) =>
+                  CommentItem(state.comments[index]),
             ),
-              // child: ListView(
-              //   //children: [Text('${model.comments[2].email}')],
-              //   children: model.comments.map((comment) => CommentItem(comment)).toList(),
-              // ),
-            ),
+          ) : const Center(child: CircularProgressIndicator());          
+        }
+        return Container();
+      },
     );
   }
 }
 
-/// Renders a single comment given a comment model
 class CommentItem extends StatelessWidget {
   final Comment? comment;
-  CommentItem(this.comment);
+  const CommentItem(this.comment, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

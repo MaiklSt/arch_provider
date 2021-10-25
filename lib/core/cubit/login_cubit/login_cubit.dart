@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(LoginInitial(''));
+  LoginCubit() : super(const LoginInitial(''));
   final AuthenticationService _authenticationService = locator<AuthenticationService>();
   String errorMessage = '';
 
@@ -33,9 +33,9 @@ class LoginCubit extends Cubit<LoginState> {
       return false;
     } 
     try {
-      emit(LoginInitial('', isLoading: true));
+      emit(const LoginInitial('', isLoading: true));
       bool success = await _authenticationService.login(userId);
-      emit(LoginInitial('', isLoading: false));
+      emit(const LoginInitial('', isLoading: false));
       //emit(LoadedState());
       return success;
     } catch (e) {

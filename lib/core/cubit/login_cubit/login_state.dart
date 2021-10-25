@@ -8,9 +8,9 @@ abstract class LoginState extends Equatable {
 }
 
 class LoginInitial extends LoginState {
-  LoginInitial(this.errorMessage, {this.isLoading = false});
+  const LoginInitial(this.errorMessage, {this.isLoading = false});
   final String? errorMessage;
-  bool isLoading;
+  final bool isLoading;
   @override
   List<Object> get props => [errorMessage!, isLoading];  
 }

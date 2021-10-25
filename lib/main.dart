@@ -1,12 +1,10 @@
+import 'package:arch_provider/core/cubit/comment_cubit/comment_cubit.dart';
 import 'package:arch_provider/core/cubit/home_cubit/home_cubit.dart';
 import 'package:arch_provider/core/cubit/login_cubit/login_cubit.dart';
-import 'package:arch_provider/core/models/user.dart';
-import 'package:arch_provider/core/services/authentication_service.dart';
 import 'package:arch_provider/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:arch_provider/ui/router.dart' as app;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   setupLocator();
@@ -27,6 +25,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<HomeCubit>(
           create: (BuildContext context) => HomeCubit(),
+        ),
+        BlocProvider<CommentCubit>(
+          create: (BuildContext context) => CommentCubit(),
         ),
       ],
       child: MaterialApp(
