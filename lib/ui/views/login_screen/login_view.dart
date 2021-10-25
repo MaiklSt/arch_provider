@@ -1,4 +1,5 @@
-import 'package:arch_provider/core/cubit/login_cubit/login_cubit.dart';
+import 'package:arch_provider/core/bloc/login_bloc/login_bloc.dart';
+import 'package:arch_provider/locator.dart';
 import 'package:arch_provider/ui/shared/app_colors.dart';
 import 'package:arch_provider/ui/widgets/login_header.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +14,26 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final TextEditingController controller = TextEditingController();
+  final LoginBloc _loginBloc = locator<LoginBloc>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginCubit, LoginState>(
+    return BlocConsumer<LoginBloc, LoginState>(
+      bloc: _loginBloc,
+      listener: (context, state) {
+        if (state is SuccessState) {
+          Navigator.pushNamed(context, '/');
+        }
+      },
       builder: (context, state) {
         if (state is ErrorState) {
           return Center(
-            child: Container(color: Colors.red),
+            child: Stack(
+              children: [
+                Container(color: Colors.red),
+                Center(child: Text(state.errorMessage, style: const TextStyle(color: Colors.white))),
+              ],
+            ),
           );
         } else if (state is LoginInitial) {
           return Scaffold(
@@ -31,8 +44,7 @@ class _LoginViewState extends State<LoginView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   LoginHeader(
-                    validationMessage:
-                        BlocProvider.of<LoginCubit>(context).errorMessage,
+                    validationMessage: state.errorMessage,
                     controller: controller,
                   ),
                   state.isLoading
@@ -41,9 +53,10 @@ class _LoginViewState extends State<LoginView> {
                         )
                       : ElevatedButton(
                           onPressed: () async {
-                            var suc = await BlocProvider.of<LoginCubit>(context)
-                                .login(controller.text);
-                            if (suc == true) Navigator.pushNamed(context, '/');
+                            _loginBloc.add(AuthEvent(controller.text));
+
+                            //var suc = await BlocProvider.of<LoginCubit>(context).login(controller.text);
+                            // if (suc == true) Navigator.pushNamed(context, '/');
                           },
                           child: const Text('Login'),
                         ),

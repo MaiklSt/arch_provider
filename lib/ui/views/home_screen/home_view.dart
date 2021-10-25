@@ -1,5 +1,6 @@
-import 'package:arch_provider/core/cubit/home_cubit/home_cubit.dart';
+import 'package:arch_provider/core/bloc/home_bloc/home_bloc.dart';
 import 'package:arch_provider/core/models/post.dart';
+import 'package:arch_provider/locator.dart';
 import 'package:arch_provider/ui/shared/app_colors.dart';
 import 'package:arch_provider/ui/shared/text_styles.dart';
 import 'package:arch_provider/ui/shared/ui_helpers.dart';
@@ -15,43 +16,43 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<HomeCubit>(context).initial();
-  }
+  final HomeBloc _homeBloc = locator<HomeBloc>();
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
+    _homeBloc.add(InitEvent());
+    return BlocBuilder<HomeBloc, HomeState>(
+      bloc: _homeBloc,
       builder: (context, state) {
-        if (state is HomeInitial) {     
+        if (state is HomeInitial) {
           return Scaffold(
-          backgroundColor: backgroundColor,
-          appBar: AppBar(),
-          body: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                UIHelper.verticalSpaceLarge(),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: Text(
-                    'Welcome ${state.userName}',
-                    style: headerStyle,
+            backgroundColor: backgroundColor,
+            appBar: AppBar(),
+            body: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  UIHelper.verticalSpaceLarge(),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: Text(
+                      'Welcome ${state.userName}',
+                      style: headerStyle,
+                    ),
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20.0),
-                  child: Text('Here are all your posts', style: subHeaderStyle),
-                ),
-                UIHelper.verticalSpaceSmall(),
-                state.posts == [] ? const Center(child: CircularProgressIndicator()) : Expanded(child: getPostsUi(state.posts)),
-              ],
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20.0),
+                    child:
+                        Text('Here are all your posts', style: subHeaderStyle),
+                  ),
+                  UIHelper.verticalSpaceSmall(),
+                  state.isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : Expanded(child: getPostsUi(state.posts)),
+                ],
+              ),
             ),
-          ),
-        );
-        }
-        else {
+          );
+        } else {
           return Container();
         }
       },
@@ -63,5 +64,5 @@ class _HomeViewState extends State<HomeView> {
         itemBuilder: (context, index) => PostListItem(
           post: posts[index],
         ),
-  );
+      );
 }

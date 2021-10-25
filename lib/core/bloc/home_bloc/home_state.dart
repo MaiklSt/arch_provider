@@ -1,17 +1,18 @@
-part of 'home_cubit.dart';
+part of 'home_bloc.dart';
 
 abstract class HomeState extends Equatable {
   const HomeState();
-
+  
   @override
   List<Object> get props => [];
 }
 
 class HomeInitial extends HomeState {
-  const HomeInitial(this.userName, this.posts);
+  const HomeInitial(this.userName, this.posts, {this.isLoading = false});
   final String userName;
   final List<Post> posts;
-//  final bool? postLoading;
+  final bool isLoading;
+
   @override
-  List<Object> get props => [userName, posts];  
+  List<Object> get props => [userName, posts, isLoading];  
 }

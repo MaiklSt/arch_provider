@@ -1,6 +1,7 @@
 
-import 'package:arch_provider/core/cubit/comment_cubit/comment_cubit.dart';
+import 'package:arch_provider/core/bloc/comment_bloc/comment_bloc.dart';
 import 'package:arch_provider/core/models/comment.dart';
+import 'package:arch_provider/locator.dart';
 import 'package:arch_provider/ui/shared/app_colors.dart';
 import 'package:arch_provider/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -15,16 +16,16 @@ class Comments extends StatefulWidget {
 }
 
 class _CommentsState extends State<Comments> {
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<CommentCubit>(context).fetchComments(widget.postId!);
-  }
+  final CommentBloc _commentBloc = locator<CommentBloc>();
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CommentCubit, CommentState>(
+    _commentBloc.add(InitEvent(widget.postId!));
+    
+    
+    return BlocBuilder<CommentBloc, CommentState>(
+      bloc: _commentBloc,
       builder: (context, state) {
-        if (state is CommentCubitState) {
+        if (state is CommentInitial) {
           return state.isLoaded ? Expanded(
             child: ListView.builder(
               itemCount: state.comments.length,
