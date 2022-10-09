@@ -1,5 +1,7 @@
 import 'package:arch_provider/core/cubit/login_cubit/login_cubit.dart';
-import 'package:arch_provider/ui/shared/app_colors.dart';
+import 'package:arch_provider/core/services/navigation_service.dart';
+import 'package:arch_provider/locator.dart';
+import 'package:arch_provider/constants/app_colors.dart';
 import 'package:arch_provider/ui/widgets/login_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +45,12 @@ class _LoginViewState extends State<LoginView> {
                           onPressed: () async {
                             var suc = await BlocProvider.of<LoginCubit>(context)
                                 .login(controller.text);
-                            if (suc == true) Navigator.pushNamed(context, '/');
+                            // if (suc == true) Navigator.pushNamed(context, '/');
+                            if (suc == true) {
+                              locator<NavigationService>().navigateTo(
+                                        '/',
+                                      );
+                            } 
                           },
                           child: const Text('Login'),
                         ),

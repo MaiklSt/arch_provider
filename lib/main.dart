@@ -1,6 +1,8 @@
+import 'package:arch_provider/constants/route_paths.dart';
 import 'package:arch_provider/core/cubit/comment_cubit/comment_cubit.dart';
 import 'package:arch_provider/core/cubit/home_cubit/home_cubit.dart';
 import 'package:arch_provider/core/cubit/login_cubit/login_cubit.dart';
+import 'package:arch_provider/core/services/navigation_service.dart';
 import 'package:arch_provider/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:arch_provider/ui/router.dart' as app;
@@ -13,8 +15,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
-  //final AppRouter _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +33,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(),
-        initialRoute: 'login',
+        initialRoute: RoutePaths.splash,
         onGenerateRoute: app.Router.generateRoute,
-        //home: const LoginView(),
+        navigatorKey: locator<NavigationService>().navigatorKey,
       ),
     );
   }

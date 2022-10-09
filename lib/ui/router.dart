@@ -2,6 +2,7 @@ import 'package:arch_provider/core/models/post.dart';
 import 'package:arch_provider/ui/views/home_screen/home_view.dart';
 import 'package:arch_provider/ui/views/login_screen/login_view.dart';
 import 'package:arch_provider/ui/views/post_screen/post_view.dart';
+import 'package:arch_provider/ui/views/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 const String initialRoute = "login";
@@ -9,6 +10,8 @@ const String initialRoute = "login";
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case 'splash':
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       case '/':
         return MaterialPageRoute(builder: (_) => const HomeView());
       case 'login':

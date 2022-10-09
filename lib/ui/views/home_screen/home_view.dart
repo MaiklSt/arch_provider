@@ -1,7 +1,7 @@
 import 'package:arch_provider/core/cubit/home_cubit/home_cubit.dart';
 import 'package:arch_provider/core/models/post.dart';
-import 'package:arch_provider/ui/shared/app_colors.dart';
-import 'package:arch_provider/ui/shared/text_styles.dart';
+import 'package:arch_provider/constants/app_colors.dart';
+import 'package:arch_provider/constants/text_styles.dart';
 import 'package:arch_provider/ui/shared/ui_helpers.dart';
 import 'package:arch_provider/ui/widgets/postlist_item.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +26,17 @@ class _HomeViewState extends State<HomeView> {
       builder: (context, state) {
         if (state is HomeInitial) {     
           return Scaffold(
+            floatingActionButton: FloatingActionButton(onPressed: () {
+              BlocProvider.of<HomeCubit>(context).testError();
+            // showDialog(
+            //         context: context,
+            //         builder: (context) => Center(
+            //               child: Material(
+            //                 // color: Colors.transparent,
+            //                 child: Container(width: 111, height: 66, child: Text('ERROR'),),
+            //               ),
+            //             ));              
+            }),
           backgroundColor: backgroundColor,
           appBar: AppBar(),
           body: Center(
