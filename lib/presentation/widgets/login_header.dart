@@ -1,5 +1,5 @@
 import 'package:arch_provider/constants/text_styles.dart';
-import 'package:arch_provider/ui/shared/ui_helpers.dart';
+import 'package:arch_provider/presentation/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
 class LoginHeader extends StatelessWidget {

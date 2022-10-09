@@ -3,8 +3,8 @@ import 'package:arch_provider/core/services/user_service.dart';
 import 'package:arch_provider/locator.dart';
 import 'package:arch_provider/constants/app_colors.dart';
 import 'package:arch_provider/constants/text_styles.dart';
-import 'package:arch_provider/ui/shared/ui_helpers.dart';
-import 'package:arch_provider/ui/views/post_screen/comments.dart';
+import 'package:arch_provider/presentation/screens/post_screen/comments.dart';
+import 'package:arch_provider/presentation/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
 

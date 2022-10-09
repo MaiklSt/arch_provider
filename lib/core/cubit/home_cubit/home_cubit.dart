@@ -2,7 +2,7 @@ import 'package:arch_provider/core/models/post.dart';
 import 'package:arch_provider/core/services/api.dart';
 import 'package:arch_provider/core/services/user_service.dart';
 import 'package:arch_provider/locator.dart';
-import 'package:arch_provider/ui/widgets/dialog.dart';
+import 'package:arch_provider/presentation/widgets/dialog.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 

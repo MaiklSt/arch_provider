@@ -5,7 +5,7 @@ import 'package:arch_provider/core/cubit/login_cubit/login_cubit.dart';
 import 'package:arch_provider/core/services/navigation_service.dart';
 import 'package:arch_provider/locator.dart';
 import 'package:flutter/material.dart';
-import 'package:arch_provider/ui/router.dart' as app;
+import 'package:arch_provider/presentation/router.dart' as app;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {

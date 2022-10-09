@@ -1,8 +1,8 @@
 import 'package:arch_provider/core/models/post.dart';
-import 'package:arch_provider/ui/views/home_screen/home_view.dart';
-import 'package:arch_provider/ui/views/login_screen/login_view.dart';
-import 'package:arch_provider/ui/views/post_screen/post_view.dart';
-import 'package:arch_provider/ui/views/splash_screen/splash_screen.dart';
+import 'package:arch_provider/presentation/screens/home_screen/home_view.dart';
+import 'package:arch_provider/presentation/screens/login_screen/login_view.dart';
+import 'package:arch_provider/presentation/screens/post_screen/post_view.dart';
+import 'package:arch_provider/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 const String initialRoute = "login";

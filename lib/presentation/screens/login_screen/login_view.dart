@@ -2,7 +2,7 @@ import 'package:arch_provider/core/cubit/login_cubit/login_cubit.dart';
 import 'package:arch_provider/core/services/navigation_service.dart';
 import 'package:arch_provider/locator.dart';
 import 'package:arch_provider/constants/app_colors.dart';
-import 'package:arch_provider/ui/widgets/login_header.dart';
+import 'package:arch_provider/presentation/widgets/login_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
