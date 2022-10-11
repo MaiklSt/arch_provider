@@ -1,4 +1,4 @@
-import 'package:arch_provider/core/models/user.dart';
+import 'package:arch_provider/features/authentication/data_layer/models/user.dart';
 
 class UserService {
 
